@@ -42,7 +42,7 @@ class Zendesk_Zendesk_Model_Observer
             &&
             Mage::app()->getFrontController()->getAction()
             &&
-            Mage::app()->getFrontController()->getAction()->getFullActionName() === 'adminhtml_dashboard_index')
+            Mage::app()->getFrontController()->getAction()->getFullActionName() === 'adminhtml_dashboard_index'
         ) {
             if ($observer->getBlock()->getUseAsDashboardHook())
             {
