@@ -37,8 +37,13 @@ class Zendesk_Zendesk_Model_Observer
 
     public function insertBlock(Varien_Event_Observer $observer)
     {
-        if (Mage::app()->getFrontController()->getAction()->getFullActionName() === 'adminhtml_dashboard_index')
-        {
+        if (
+            Mage::app()->getFrontController()
+            &&
+            Mage::app()->getFrontController()->getAction()
+            &&
+            Mage::app()->getFrontController()->getAction()->getFullActionName() === 'adminhtml_dashboard_index')
+        ) {
             if ($observer->getBlock()->getUseAsDashboardHook())
             {
                 $html = $observer->getTransport()->getHtml();
