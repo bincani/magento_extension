@@ -20,7 +20,12 @@ class Zendesk_Zendesk_Model_Observer
 {
     public function setHook(Varien_Event_Observer $observer)
     {
-        if (Mage::app()->getFrontController()->getAction()->getFullActionName() === 'adminhtml_dashboard_index')
+        if (
+            Mage::app()->getFrontController()
+            &&
+            Mage::app()->getFrontController()->getAction()
+            &&
+            Mage::app()->getFrontController()->getAction()->getFullActionName() === 'adminhtml_dashboard_index')
         {
             $block = $observer->getBlock();
             if ($block->getNameInLayout() === 'dashboard')
