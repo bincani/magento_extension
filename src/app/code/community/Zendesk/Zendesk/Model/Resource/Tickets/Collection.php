@@ -127,15 +127,17 @@ class Zendesk_Zendesk_Model_Resource_Tickets_Collection extends Varien_Data_Coll
 
         // Set the users for this collection
         $this->users = $all['users'];
-
+        if (!is_array($this->users)) {
+            $this->users = array();
+        }
         $emails = array_column($this->users, 'email', 'id');
-
-        foreach ($all['results'] as $ticket) {
-            $ticket['requester_email'] = (isset($emails[$ticket['requester_id']]) ? $emails[$ticket['requester_id']] : '');
-
-            $obj = new Varien_Object();
-            $obj->setData($ticket);
-            $this->addItem($obj);
+        if (is_array($all['results'])) {
+            foreach ($all['results'] as $ticket) {
+                $ticket['requester_email'] = (isset($emails[$ticket['requester_id']]) ? $emails[$ticket['requester_id']] : '');
+                $obj = new Varien_Object();
+                $obj->setData($ticket);
+                $this->addItem($obj);
+            }
         }
 
         $this->setPageSize($params['per_page']);
