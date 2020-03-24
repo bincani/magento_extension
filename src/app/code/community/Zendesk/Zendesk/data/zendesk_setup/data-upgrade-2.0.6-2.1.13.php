@@ -1,12 +1,18 @@
 <?php
 /**
- *
- * select * from core_resource where code like '%zendesk_setup%';
- * update core_resource set version = '2.0.6', data_version = '2.0.6' where code = 'zendesk_setup';
- *
- * select * from eav_attribute where entity_type_id IN (select entity_type_id from eav_entity_type where entity_type_code = 'customer');
- * select * from eav_attribute where attribute_code = 'zendesk_id';
- */
+select * from core_resource where code like '%zendesk_setup%';
+update core_resource set version = '2.0.6', data_version = '2.0.6' where code = 'zendesk_setup';
+
+select * from eav_attribute where entity_type_id IN (select entity_type_id from eav_entity_type where entity_type_code = 'customer');
+select * from eav_attribute where attribute_code = 'zendesk_id';
+
+select * from core_config_data where path like 'zendsk%';
+
+select * from core_config_data where path = 'crontab/jobs/zendesk_customer_sync/schedule/cron_expr';
+
+-- update cron
+INSERT INTO core_config_data (scope,scope_id,path,value) VALUES ('default',0,'crontab/jobs/zendesk_customer_sync/schedule/cron_expr','0 */2 * * *') ON DUPLICATE KEY UPDATE value = '0 */2 * * *';
+*/
 
 $installer = new Mage_Eav_Model_Entity_Setup('core_setup');
 $installer->startSetup();
@@ -25,7 +31,7 @@ $installer->addAttribute("customer", "zendesk_id",  array(
 
 ));
 
-$attribute   = Mage::getSingleton("eav/config")->getAttribute("customer", "zendesk_id");
+$attribute = Mage::getSingleton("eav/config")->getAttribute("customer", "zendesk_id");
 $used_in_forms=array();
 
 $used_in_forms[]="adminhtml_customer";
